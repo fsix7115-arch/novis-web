@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Novis — Meet Strangers, Anonymously</title>
+<meta name="description" content="Novis connects you with strangers around the world for anonymous text, voice and video chat. No signup. No profile. Just tap and talk. 18+ only.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%237c5cff'/%3E%3Cstop offset='1' stop-color='%2300d4ff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='url(%23g)'/%3E%3Cpath d='M20 44V20l24 24V20' stroke='white' stroke-width='6' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
+<style>
+  :root{
+    --bg:#0a0a12; --bg2:#10101c; --card:#151524; --card2:#1a1a2e;
+    --text:#f2f2f8; --muted:#a5a5bd; --line:rgba(255,255,255,.08);
+    --violet:#7c5cff; --cyan:#00d4ff; --pink:#ff5ca8;
+    --grad:linear-gradient(120deg,#7c5cff,#00d4ff);
+    --radius:18px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;line-height:1.6;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+
+  /* glow background */
+  .glow{position:fixed;inset:0;z-index:-1;overflow:hidden}
+  .glow::before,.glow::after{content:"";position:absolute;border-radius:50%;filter:blur(120px);opacity:.35}
+  .glow::before{width:520px;height:520px;background:#7c5cff;top:-160px;left:-120px}
+  .glow::after{width:460px;height:460px;background:#00d4ff;bottom:-180px;right:-100px;opacity:.22}
+
+  /* header */
+  header{position:sticky;top:0;z-index:50;background:rgba(10,10,18,.75);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .logo{display:flex;align-items:center;gap:10px;font-size:1.35rem;font-weight:800;letter-spacing:.5px}
+  .logo .mark{width:34px;height:34px;border-radius:9px;background:var(--grad);display:grid;place-items:center;font-size:1.05rem;color:#fff}
+  .logo span em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .links{display:flex;gap:28px;font-size:.95rem;color:var(--muted)}
+  .links a:hover{color:var(--text)}
+  .links a.dl{color:#fff;background:var(--grad);padding:8px 18px;border-radius:999px;font-weight:600}
+  .burger{display:none;background:none;border:0;color:var(--text);font-size:1.5rem;cursor:pointer}
+  @media(max-width:720px){
+    .links{display:none;position:absolute;top:64px;left:0;right:0;flex-direction:column;background:var(--bg2);padding:18px 22px;gap:16px;border-bottom:1px solid var(--line)}
+    .links.open{display:flex}
+    .burger{display:block}
+  }
+
+  /* hero */
+  .hero{padding:84px 0 70px;display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+  @media(max-width:880px){.hero{grid-template-columns:1fr;padding-top:56px}}
+  .badge{display:inline-block;padding:6px 14px;border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:.85rem;margin-bottom:20px;background:rgba(255,255,255,.03)}
+  .badge b{color:var(--cyan);font-weight:600}
+  h1{font-size:clamp(2.4rem,5.5vw,3.9rem);line-height:1.08;font-weight:850;letter-spacing:-.5px}
+  h1 .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p.lead{margin:22px 0 32px;color:var(--muted);font-size:1.13rem;max-width:520px}
+  .cta{display:flex;gap:14px;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:9px;padding:14px 26px;border-radius:999px;font-weight:650;font-size:1rem;transition:transform .15s ease,box-shadow .15s ease;border:1px solid transparent}
+  .btn:hover{transform:translateY(-2px)}
+  .btn.primary{background:var(--grad);color:#fff;box-shadow:0 10px 30px rgba(124,92,255,.35)}
+  .btn.ghost{background:rgba(255,255,255,.04);border-color:var(--line);color:var(--text)}
+  .hero .fine{margin-top:18px;color:var(--muted);font-size:.88rem}
+
+  /* phone mockup */
+  .phone{justify-self:center;width:290px;max-width:86vw;background:#0d0d18;border:1px solid var(--line);border-radius:38px;padding:14px;box-shadow:0 30px 80px rgba(0,0,0,.55)}
+  .screen{background:var(--bg2);border-radius:28px;overflow:hidden}
+  .screen .top{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
+  .dot{width:36px;height:36px;border-radius:50%;background:var(--grad);display:grid;place-items:center;font-weight:700;color:#fff}
+  .screen .top small{display:block;color:var(--muted);font-size:.72rem}
+  .screen .top b{font-size:.92rem}
+  .chat{padding:18px 16px 8px;display:flex;flex-direction:column;gap:10px;min-height:240px}
+  .msg{max-width:78%;padding:9px 13px;border-radius:16px;font-size:.86rem;line-height:1.45}
+  .msg.in{background:#23233a;align-self:flex-start;border-bottom-left-radius:4px}
+  .msg.out{background:var(--grad);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+  .typing{align-self:flex-start;color:var(--muted);font-size:.78rem;padding:2px 6px}
+  .screen .actions{display:flex;gap:8px;padding:12px 14px 16px}
+  .chip{flex:1;text-align:center;padding:9px 0;border-radius:999px;font-size:.8rem;font-weight:600;border:1px solid var(--line);background:rgba(255,255,255,.03)}
+  .chip.next{background:var(--grad);color:#fff;border:0}
+  .chip.end{color:#ff7b93}
+
+  /* sections */
+  section{padding:72px 0}
+  .kicker{text-align:center;color:var(--cyan);font-weight:700;letter-spacing:2.5px;font-size:.78rem;text-transform:uppercase}
+  h2{text-align:center;font-size:clamp(1.7rem,3.6vw,2.4rem);margin:10px 0 14px;font-weight:800}
+  .sub{text-align:center;color:var(--muted);max-width:620px;margin:0 auto 44px}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  @media(max-width:880px){.grid{grid-template-columns:1fr 1fr}}
+  @media(max-width:560px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:28px 24px;transition:transform .15s ease,border-color .15s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(124,92,255,.45)}
+  .card .icon{width:48px;height:48px;border-radius:13px;background:var(--card2);display:grid;place-items:center;margin-bottom:16px}
+  .card .icon svg{width:24px;height:24px}
+  .card h3{font-size:1.08rem;margin-bottom:8px}
+  .card p{color:var(--muted);font-size:.94rem}
+
+  /* steps */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;counter-reset:step}
+  @media(max-width:760px){.steps{grid-template-columns:1fr}}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:28px 24px;position:relative}
+  .step .num{width:40px;height:40px;border-radius:50%;background:var(--grad);display:grid;place-items:center;font-weight:800;color:#fff;margin-bottom:14px}
+  .step h3{margin-bottom:8px;font-size:1.05rem}
+  .step p{color:var(--muted);font-size:.94rem}
+
+  /* safety */
+  .safety{background:linear-gradient(180deg,rgba(124,92,255,.07),rgba(0,212,255,.04));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .safe-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  @media(max-width:760px){.safe-grid{grid-template-columns:1fr}}
+  .safe-item{display:flex;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+  .safe-item .icon{flex:0 0 auto;width:42px;height:42px;border-radius:11px;background:var(--card2);display:grid;place-items:center}
+  .safe-item .icon svg{width:21px;height:21px}
+  .safe-item h3{font-size:1rem;margin-bottom:5px}
+  .safe-item p{color:var(--muted);font-size:.92rem}
+
+  /* downloads */
+  .dl-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:920px;margin:0 auto}
+  @media(max-width:760px){.dl-cards{grid-template-columns:1fr}}
+  .dl-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:32px 24px;text-align:center}
+  .dl-card .icon{width:56px;height:56px;margin:0 auto 16px;border-radius:16px;background:var(--card2);display:grid;place-items:center}
+  .dl-card .icon svg{width:28px;height:28px}
+  .dl-card h3{margin-bottom:6px}
+  .dl-card p{color:var(--muted);font-size:.9rem;margin-bottom:20px}
+  .dl-card .btn{width:100%;justify-content:center}
+
+  footer{border-top:1px solid var(--line);padding:38px 0 46px;color:var(--muted);font-size:.9rem}
+  .foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
+  .age{display:inline-block;border:1.5px solid #ff5c5c;color:#ff8080;border-radius:7px;padding:1px 7px;font-weight:800;font-size:.8rem;margin-right:8px}
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s ease}
+  .reveal.on{opacity:1;transform:none}
+</style>
+</head>
+<body>
+<div class="glow"></div>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#top"><span class="mark">N</span><span>Nov<em>is</em></span></a>
+    <button class="burger" id="burger" aria-label="Menu">☰</button>
+    <nav class="links" id="links">
+      <a href="#features">Features</a>
+      <a href="#how">How it works</a>
+      <a href="#safety">Safety</a>
+      <a href="#download" class="dl">Download</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <div class="wrap hero">
+    <div>
+      <span class="badge">🔒 100% anonymous · <b>No signup</b> · 18+</span>
+      <h1>Meet strangers.<br>Chat, talk, <span class="grad">connect.</span></h1>
+      <p class="lead">Novis matches you with random people around the world for anonymous <b>text chat, voice calls and video calls</b> — instantly. No account, no profile, no history. Just tap and start talking.</p>
+      <div class="cta">
+        <a class="btn primary" href="#download">⬇ Get the app — it's free</a>
+        <a class="btn ghost" href="#how">How it works</a>
+      </div>
+      <p class="fine">Free forever · No login · Leave any chat anytime</p>
+    </div>
+    <div class="phone" aria-hidden="true">
+      <div class="screen">
+        <div class="top"><div class="dot">?</div><div><b>Stranger</b><small>● connected · anonymous</small></div></div>
+        <div class="chat">
+          <div class="msg in">Hey! Where are you from? 👋</div>
+          <div class="msg out">Hi! Somewhere on Earth 😄 wbu?</div>
+          <div class="msg in">Same planet, nice. Favourite song right now?</div>
+          <div class="typing">Stranger is typing…</div>
+        </div>
+        <div class="actions"><div class="chip end">End</div><div class="chip">🎙 Voice</div><div class="chip next">Next ➜</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <section id="features">
+    <div class="wrap">
+      <p class="kicker">Features</p>
+      <h2>Everything you need, nothing you don't</h2>
+      <p class="sub">Built to be fast, private and fun — open the app and you're one tap away from a real conversation.</p>
+      <div class="grid">
+        <div class="card reveal"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#00d4ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div><h3>Anonymous text chat</h3><p>Instant one-to-one text chat with a random stranger. No names, no profiles, no chat history saved.</p></div>
+        <div class="card reveal"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#7c5cff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg></div><h3>Voice calls</h3><p>Switch from text to a crystal-clear voice call whenever both of you are up for it.</p></div>
+        <div class="card reveal"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#ff5ca8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div><h3>Video calls</h3><p>Face-to-face video with strangers, powered by fast peer-to-peer WebRTC connections.</p></div>
+        <div class="card reveal"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#00d4ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a7 7 0 0 1 14 0v1" opacity=".4"/><line x1="3" y1="3" x2="21" y2="21"/></svg></div><h3>No signup, ever</h3><p>No email, no phone number, no password. Open the app, confirm you're 18+, and start meeting people.</p></div>
+        <div class="card reveal"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#7c5cff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div><h3>Instant matching</h3><p>Smart matchmaking pairs you with someone in seconds. Not feeling it? Tap Next and move on.</p></div>
+        <div class="card reveal"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#ff5ca8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h3>Safety built in</h3><p>Report and block in one tap. You're always in control of who you talk to — and for how long.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div class="wrap">
+      <p class="kicker">How it works</p>
+      <h2>Talking in under 10 seconds</h2>
+      <p class="sub">No forms. No feeds. No followers. Just real conversations with real people.</p>
+      <div class="steps">
+        <div class="step reveal"><div class="num">1</div><h3>Open Novis</h3><p>Download the app (or open the web app) and confirm you're 18 or older. That's the only gate.</p></div>
+        <div class="step reveal"><div class="num">2</div><h3>Pick text, voice or video</h3><p>Choose how you want to connect and Novis instantly finds a stranger who's online right now.</p></div>
+        <div class="step reveal"><div class="num">3</div><h3>Chat — or tap Next</h3><p>Great conversation? Keep going. Not for you? End or skip to the next person, no hard feelings.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SAFETY -->
+  <section id="safety" class="safety">
+    <div class="wrap">
+      <p class="kicker">Safety first</p>
+      <h2>Anonymous doesn't mean unprotected</h2>
+      <p class="sub">Novis is strictly for adults, and you stay in charge of every conversation.</p>
+      <div class="safe-grid">
+        <div class="safe-item reveal"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#ff8080" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="4.9" y1="4.9" x2="19.1" y2="19.1"/></svg></div><div><h3>18+ only</h3><p>Novis is an adults-only app. An age confirmation is required before your first match.</p></div></div>
+        <div class="safe-item reveal"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#00d4ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V4"/><path d="M4 4h13l-2.5 4L17 12H4"/></svg></div><div><h3>Report &amp; block</h3><p>Bad behaviour? Report or block in one tap — you'll never be matched with that person again.</p></div></div>
+        <div class="safe-item reveal"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#7c5cff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div><div><h3>Stay anonymous</h3><p>Never share personal details — your real name, address, phone number, school or social handles.</p></div></div>
+        <div class="safe-item reveal"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#ff5ca8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></div><div><h3>Leave anytime</h3><p>Every chat is one tap from over. When a conversation ends, it's gone — nothing is kept.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DOWNLOADS -->
+  <section id="download">
+    <div class="wrap">
+      <p class="kicker">Download</p>
+      <h2>Get Novis on your device</h2>
+      <p class="sub">Free on every platform. Pick yours and start meeting people in seconds.</p>
+      <div class="dl-cards">
+        <div class="dl-card reveal">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#00d4ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2.5"/><line x1="12" y1="18.5" x2="12.01" y2="18.5"/></svg></div>
+          <h3>Android</h3><p>Direct APK download for Android phones. Version 1.0.2.</p>
+          <a class="btn primary" href="releases/android">⬇ Download for Android (APK)</a>
+        </div>
+        <div class="dl-card reveal">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#7c5cff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+          <h3>Windows</h3><p>Desktop app for Windows PCs and laptops.</p>
+          <a class="btn primary" href="releases/windows">⬇ Download for Windows</a>
+        </div>
+        <div class="dl-card reveal">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#ff5ca8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+          <h3>Web App</h3><p>Nothing to install — chat right in your browser.</p>
+          <a class="btn primary" href="app/">🌐 Open Web App</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div><span class="age">18+</span> © 2026 Novis · Meet strangers, stay safe.</div>
+    <div id="version-line">Version 1.0.2</div>
+  </div>
+</footer>
+
+<script>
+  var burger=document.getElementById('burger'),links=document.getElementById('links');
+  burger.addEventListener('click',function(){links.classList.toggle('open')});
+  links.addEventListener('click',function(){links.classList.remove('open')});
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
+</script>
+</body>
+</html>
