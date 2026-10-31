@@ -30,7 +30,7 @@
   header{position:sticky;top:0;z-index:50;background:rgba(10,10,18,.75);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
   .nav{display:flex;align-items:center;justify-content:space-between;height:64px}
   .logo{display:flex;align-items:center;gap:10px;font-size:1.35rem;font-weight:800;letter-spacing:.5px}
-  .logo .mark{width:34px;height:34px;border-radius:9px;background:var(--grad);display:grid;place-items:center;font-size:1.05rem;color:#fff}
+  .logo .mark{width:34px;height:34px;border-radius:9px}
   .logo span em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
   .links{display:flex;gap:28px;font-size:.95rem;color:var(--muted)}
   .links a:hover{color:var(--text)}
@@ -130,7 +130,7 @@
 
 <header>
   <div class="wrap nav">
-    <a class="logo" href="#top"><span class="mark">N</span><span>Nov<em>is</em></span></a>
+    <a class="logo" href="#top"><img class="mark" src="favicon.png" alt="Novis logo"><span>Nov<em>is</em></span></a>
     <button class="burger" id="burger" aria-label="Menu">☰</button>
     <nav class="links" id="links">
       <a href="#features">Features</a>
