@@ -1,11 +1,11 @@
 {
-    "name": "stranger_connect",
-    "short_name": "stranger_connect",
+    "name": "Novis",
+    "short_name": "Novis",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#0A0E17",
+    "theme_color": "#0A0E17",
+    "description": "Meet someone new - anonymous text, voice and video chats with strangers. No sign-up.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
