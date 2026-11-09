@@ -31,13 +31,13 @@
     --radius:24px;
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth;overflow-x:hidden;overflow-x:clip}
+  html{scroll-behavior:smooth}
   body{background:linear-gradient(180deg,#472038 0%,var(--bg) 340px,#1F0D18 100%);color:var(--text);font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;line-height:1.6;overflow-x:hidden;overflow-x:clip}
   a{color:inherit;text-decoration:none}
   .wrap{max-width:1200px;margin:0 auto;padding:0 22px}
 
   /* rich gradient glow background — the background does the attracting */
-  .glow{position:fixed;inset:0;z-index:-1;overflow:hidden;background:radial-gradient(640px 420px at 88% 6%,rgba(255,106,0,.18),transparent 62%),radial-gradient(760px 520px at 50% 108%,rgba(236,64,112,.12),transparent 64%)}
+  .glow{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;background:radial-gradient(640px 420px at 88% 6%,rgba(255,106,0,.18),transparent 62%),radial-gradient(760px 520px at 50% 108%,rgba(236,64,112,.12),transparent 64%)}
   .glow::before,.glow::after{content:"";position:absolute;border-radius:50%;filter:blur(120px)}
   .glow::before{width:560px;height:560px;background:#FF5C7A;top:-180px;left:-130px;opacity:.40}
   .glow::after{width:480px;height:480px;background:#FF9E45;bottom:-190px;right:-110px;opacity:.32}
@@ -175,6 +175,7 @@
       <a href="#features">Features</a>
       <a href="#how">How it works</a>
       <a href="#safety">Safety</a>
+      <a href="#about">About</a>
       <a href="#download" class="dl">Download</a>
     </nav>
   </div>
@@ -282,6 +283,20 @@
           <h3>Web App</h3><p>Nothing to install — chat right in your browser.</p>
           <a class="btn primary" href="app/">🌐 Open Web App</a>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="wrap">
+      <p class="kicker">About</p>
+      <h2>What is Novis?</h2>
+      <p class="sub">Novis is a free, friendly place to meet new people face to face. One tap starts an anonymous video conversation with someone you have never met — no profile, no pressure, just a real moment with a real person.</p>
+      <div class="grid">
+        <div class="card reveal"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#FFB25E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21.2l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></div><h3>Made for real moments</h3><p>Sometimes the best conversation is with someone completely new. Novis exists for those small, genuine moments — a laugh, a story, a few kind words from across the world that make the day feel a little less lonely.</p></div>
+        <div class="card reveal"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#A86BFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><h3>Kindness first, always</h3><p>Everyone on Novis deserves to be treated with respect. The app is strictly 18+, and report and block tools are always one tap away — if a conversation ever stops feeling good, you can leave or skip on, instantly and without explanation.</p></div>
+        <div class="card reveal"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#FF6B8A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div><h3>Free, and open to everyone</h3><p>Novis costs nothing, and you do not need an account to try it. There is no sign-up, no profile to build and nothing to pay — open the app, tap once, and say hello to someone new.</p></div>
       </div>
     </div>
   </section>
