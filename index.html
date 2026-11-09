@@ -8,58 +8,68 @@
 <link rel="icon" type="image/png" href="favicon.png">
 <style>
   :root{
-    --bg:#0a0a12; --bg2:#10101c; --card:#151524; --card2:#1a1a2e;
-    --text:#f2f2f8; --muted:#a5a5bd; --line:rgba(255,255,255,.08);
-    --violet:#7c5cff; --cyan:#00d4ff; --pink:#ff5ca8;
+    --bg:#0A0E17; --bg2:#0d1220; --card:#151524; --card2:#1a1a2e;
+    --text:#f2f2f8; --muted:#a7abbf; --line:rgba(255,255,255,.14);
+    --violet:#7c5cff; --cyan:#00d4ff; --pink:#ff5ca8; --orange:#ff6a00;
+    --glass:rgba(255,255,255,.08); --glass-hi:rgba(255,255,255,.13);
+    --gline:rgba(255,255,255,.26);
     --grad:linear-gradient(120deg,#7c5cff,#00d4ff);
-    --radius:18px;
+    --rim:linear-gradient(135deg,rgba(0,212,255,.65),rgba(124,92,255,.55) 48%,rgba(255,106,0,.55));
+    --radius:24px;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{background:var(--bg);color:var(--text);font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;line-height:1.6;overflow-x:hidden}
+  body{background:linear-gradient(180deg,#0c1120 0%,var(--bg) 340px,#070a12 100%);color:var(--text);font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;line-height:1.6;overflow-x:hidden}
   a{color:inherit;text-decoration:none}
-  .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 22px}
 
-  /* glow background */
-  .glow{position:fixed;inset:0;z-index:-1;overflow:hidden}
-  .glow::before,.glow::after{content:"";position:absolute;border-radius:50%;filter:blur(120px);opacity:.35}
-  .glow::before{width:520px;height:520px;background:#7c5cff;top:-160px;left:-120px}
-  .glow::after{width:460px;height:460px;background:#00d4ff;bottom:-180px;right:-100px;opacity:.22}
+  /* rich gradient glow background — the background does the attracting */
+  .glow{position:fixed;inset:0;z-index:-1;overflow:hidden;background:radial-gradient(640px 420px at 88% 6%,rgba(255,106,0,.13),transparent 62%)}
+  .glow::before,.glow::after{content:"";position:absolute;border-radius:50%;filter:blur(120px)}
+  .glow::before{width:560px;height:560px;background:#7c5cff;top:-180px;left:-130px;opacity:.38}
+  .glow::after{width:480px;height:480px;background:#00d4ff;bottom:-190px;right:-110px;opacity:.24}
 
-  /* header */
-  header{position:sticky;top:0;z-index:50;background:rgba(10,10,18,.75);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  /* header — frosted glass pill bar */
+  header{position:sticky;top:0;z-index:50;background:rgba(10,14,23,.62);backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);border-bottom:1px solid rgba(255,255,255,.13)}
   .nav{display:flex;align-items:center;justify-content:space-between;height:64px}
   .logo{display:flex;align-items:center;gap:10px;font-size:1.35rem;font-weight:800;letter-spacing:.5px}
   .logo .mark{width:34px;height:34px;border-radius:9px}
   .logo span em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
   .links{display:flex;gap:28px;font-size:.95rem;color:var(--muted)}
   .links a:hover{color:var(--text)}
-  .links a.dl{color:#fff;background:var(--grad);padding:8px 18px;border-radius:999px;font-weight:600}
+  .links a.dl{color:#fff;background:var(--grad);padding:8px 18px;border-radius:999px;font-weight:600;box-shadow:0 6px 20px rgba(124,92,255,.35);transition:filter .15s ease,transform .15s ease,box-shadow .15s ease}
+  .links a.dl:hover{filter:brightness(1.12);box-shadow:0 10px 28px rgba(0,212,255,.35)}
+  .links a.dl:active{transform:scale(.96);filter:brightness(1.3)}
   .burger{display:none;background:none;border:0;color:var(--text);font-size:1.5rem;cursor:pointer}
   @media(max-width:720px){
-    .links{display:none;position:absolute;top:64px;left:0;right:0;flex-direction:column;background:var(--bg2);padding:18px 22px;gap:16px;border-bottom:1px solid var(--line)}
+    .links{display:none;position:absolute;top:64px;left:0;right:0;flex-direction:column;background:rgba(13,18,32,.94);backdrop-filter:blur(18px);padding:18px 22px;gap:16px;border-bottom:1px solid var(--line)}
     .links.open{display:flex}
     .burger{display:block}
   }
 
   /* hero */
-  .hero{padding:84px 0 70px;display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+  .hero{padding:84px 0 70px;display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;background:radial-gradient(680px 420px at 12% 0%,rgba(124,92,255,.17),transparent 62%),radial-gradient(560px 380px at 92% 18%,rgba(0,212,255,.11),transparent 62%),radial-gradient(520px 300px at 58% 112%,rgba(255,106,0,.09),transparent 62%)}
+  @media(min-width:1100px){.hero{gap:68px}}
   @media(max-width:880px){.hero{grid-template-columns:1fr;padding-top:56px}}
-  .badge{display:inline-block;padding:6px 14px;border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:.85rem;margin-bottom:20px;background:rgba(255,255,255,.03)}
-  .badge b{color:var(--cyan);font-weight:600}
+  .badge{display:inline-block;padding:6px 14px;border:1px solid var(--gline);border-radius:999px;color:var(--muted);font-size:.85rem;margin-bottom:20px;background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:inset 0 1px 0 rgba(255,255,255,.22)}
+  .badge b{color:#ff9440;font-weight:600}
   h1{font-size:clamp(2.4rem,5.5vw,3.9rem);line-height:1.08;font-weight:850;letter-spacing:-.5px}
   h1 .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
   .hero p.lead{margin:22px 0 32px;color:var(--muted);font-size:1.13rem;max-width:520px}
   .cta{display:flex;gap:14px;flex-wrap:wrap}
-  .btn{display:inline-flex;align-items:center;gap:9px;padding:14px 26px;border-radius:999px;font-weight:650;font-size:1rem;transition:transform .15s ease,box-shadow .15s ease;border:1px solid transparent}
+  .btn{display:inline-flex;align-items:center;gap:9px;padding:14px 26px;border-radius:999px;font-weight:650;font-size:1rem;transition:transform .16s ease,box-shadow .16s ease,filter .16s ease;border:1px solid transparent}
   .btn:hover{transform:translateY(-2px)}
-  .btn.primary{background:var(--grad);color:#fff;box-shadow:0 10px 30px rgba(124,92,255,.35)}
-  .btn.ghost{background:rgba(255,255,255,.04);border-color:var(--line);color:var(--text)}
+  .btn:active{transform:translateY(0) scale(.965);filter:brightness(1.28)}
+  .btn.primary{background:var(--grad);color:#fff;box-shadow:0 10px 30px rgba(124,92,255,.38),inset 0 1px 0 rgba(255,255,255,.35)}
+  .btn.primary:hover{box-shadow:0 16px 42px rgba(0,212,255,.35),0 8px 26px rgba(124,92,255,.4),inset 0 1px 0 rgba(255,255,255,.45)}
+  .btn.ghost{background:var(--glass);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-color:var(--gline);color:var(--text);box-shadow:inset 0 1px 0 rgba(255,255,255,.22)}
+  .btn.ghost:hover{background:var(--glass-hi);box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 10px 28px rgba(0,0,0,.35)}
   .hero .fine{margin-top:18px;color:var(--muted);font-size:.88rem}
 
-  /* phone mockup */
-  .phone{justify-self:center;width:290px;max-width:86vw;background:#0d0d18;border:1px solid var(--line);border-radius:38px;padding:14px;box-shadow:0 30px 80px rgba(0,0,0,.55)}
-  .screen{background:var(--bg2);border-radius:28px;overflow:hidden}
+  /* phone mockup — glass panel with iridescent rim */
+  .phone{justify-self:center;width:290px;max-width:86vw;background:rgba(255,255,255,.06);border:1px solid var(--gline);border-radius:38px;padding:14px;box-shadow:0 30px 80px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.25);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);position:relative}
+  .phone::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;background:var(--rim);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude;opacity:.55;pointer-events:none}
+  .screen{background:rgba(13,18,32,.88);border-radius:28px;overflow:hidden}
   .screen .top{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
   .dot{width:36px;height:36px;border-radius:50%;background:var(--grad);display:grid;place-items:center;font-weight:700;color:#fff}
   .screen .top small{display:block;color:var(--muted);font-size:.72rem}
@@ -70,7 +80,7 @@
   .msg.out{background:var(--grad);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
   .typing{align-self:flex-start;color:var(--muted);font-size:.78rem;padding:2px 6px}
   .screen .actions{display:flex;gap:8px;padding:12px 14px 16px}
-  .chip{flex:1;text-align:center;padding:9px 0;border-radius:999px;font-size:.8rem;font-weight:600;border:1px solid var(--line);background:rgba(255,255,255,.03)}
+  .chip{flex:1;text-align:center;padding:9px 0;border-radius:999px;font-size:.8rem;font-weight:600;border:1px solid var(--line);background:rgba(255,255,255,.04)}
   .chip.next{background:var(--grad);color:#fff;border:0}
   .chip.end{color:#ff7b93}
 
@@ -82,9 +92,14 @@
   .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
   @media(max-width:880px){.grid{grid-template-columns:1fr 1fr}}
   @media(max-width:560px){.grid{grid-template-columns:1fr}}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:28px 24px;transition:transform .15s ease,border-color .15s ease}
-  .card:hover{transform:translateY(-4px);border-color:rgba(124,92,255,.45)}
-  .card .icon{width:48px;height:48px;border-radius:13px;background:var(--card2);display:grid;place-items:center;margin-bottom:16px}
+
+  /* glass cards with iridescent rim light */
+  .card,.step,.safe-item,.dl-card{background:linear-gradient(160deg,rgba(255,255,255,.10),rgba(255,255,255,.045));-webkit-backdrop-filter:blur(18px) saturate(140%);backdrop-filter:blur(18px) saturate(140%);border:1px solid rgba(255,255,255,.17);border-radius:var(--radius);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 20px 46px rgba(0,0,0,.32);position:relative;transition:transform .16s ease,box-shadow .16s ease}
+  .card::before,.step::before,.safe-item::before,.dl-card::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;background:var(--rim);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude;opacity:.28;pointer-events:none;transition:opacity .2s ease}
+  .card:hover,.step:hover,.safe-item:hover,.dl-card:hover{transform:translateY(-4px);box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 26px 56px rgba(0,0,0,.4),0 12px 34px rgba(124,92,255,.18)}
+  .card:hover::before,.step:hover::before,.safe-item:hover::before,.dl-card:hover::before{opacity:.85}
+  .card{padding:28px 24px}
+  .card .icon{width:48px;height:48px;border-radius:13px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);display:grid;place-items:center;margin-bottom:16px}
   .card .icon svg{width:24px;height:24px}
   .card h3{font-size:1.08rem;margin-bottom:8px}
   .card p{color:var(--muted);font-size:.94rem}
@@ -92,17 +107,17 @@
   /* steps */
   .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;counter-reset:step}
   @media(max-width:760px){.steps{grid-template-columns:1fr}}
-  .step{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:28px 24px;position:relative}
-  .step .num{width:40px;height:40px;border-radius:50%;background:var(--grad);display:grid;place-items:center;font-weight:800;color:#fff;margin-bottom:14px}
+  .step{padding:28px 24px}
+  .step .num{width:40px;height:40px;border-radius:50%;background:var(--grad);display:grid;place-items:center;font-weight:800;color:#fff;margin-bottom:14px;box-shadow:0 8px 20px rgba(124,92,255,.35)}
   .step h3{margin-bottom:8px;font-size:1.05rem}
   .step p{color:var(--muted);font-size:.94rem}
 
   /* safety */
-  .safety{background:linear-gradient(180deg,rgba(124,92,255,.07),rgba(0,212,255,.04));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .safety{background:linear-gradient(180deg,rgba(124,92,255,.08),rgba(0,212,255,.045) 55%,rgba(255,106,0,.035));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
   .safe-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
   @media(max-width:760px){.safe-grid{grid-template-columns:1fr}}
-  .safe-item{display:flex;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
-  .safe-item .icon{flex:0 0 auto;width:42px;height:42px;border-radius:11px;background:var(--card2);display:grid;place-items:center}
+  .safe-item{display:flex;gap:14px;padding:22px}
+  .safe-item .icon{flex:0 0 auto;width:42px;height:42px;border-radius:11px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);display:grid;place-items:center}
   .safe-item .icon svg{width:21px;height:21px}
   .safe-item h3{font-size:1rem;margin-bottom:5px}
   .safe-item p{color:var(--muted);font-size:.92rem}
@@ -110,8 +125,8 @@
   /* downloads */
   .dl-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:920px;margin:0 auto}
   @media(max-width:760px){.dl-cards{grid-template-columns:1fr}}
-  .dl-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:32px 24px;text-align:center}
-  .dl-card .icon{width:56px;height:56px;margin:0 auto 16px;border-radius:16px;background:var(--card2);display:grid;place-items:center}
+  .dl-card{padding:32px 24px;text-align:center}
+  .dl-card .icon{width:56px;height:56px;margin:0 auto 16px;border-radius:16px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);display:grid;place-items:center}
   .dl-card .icon svg{width:28px;height:28px}
   .dl-card h3{margin-bottom:6px}
   .dl-card p{color:var(--muted);font-size:.9rem;margin-bottom:20px}
@@ -147,7 +162,7 @@
     <div>
       <span class="badge">🔒 100% anonymous · <b>No signup</b> · 18+</span>
       <h1>Meet strangers.<br>Chat, talk, <span class="grad">connect.</span></h1>
-      <p class="lead">Novis matches you with random people around the world for anonymous <b>text chat, voice calls and video calls</b> — instantly. No account, no profile, no history. Just tap and start talking.</p>
+      <p class="lead">Novis matches you with random people around the world for anonymous <b>text chat, voice calls and video calls</b>. There is no account, no profile and no history — open the app, tap once, and start talking.</p>
       <div class="cta">
         <a class="btn primary" href="#download">⬇ Get the app — it's free</a>
         <a class="btn ghost" href="#how">How it works</a>
@@ -173,14 +188,14 @@
     <div class="wrap">
       <p class="kicker">Features</p>
       <h2>Everything you need, nothing you don't</h2>
-      <p class="sub">Built to be fast, private and fun — open the app and you're one tap away from a real conversation.</p>
+      <p class="sub">Fast, private, and made for real conversations. Open the app and you're one tap from talking to someone new.</p>
       <div class="grid">
         <div class="card reveal"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#00d4ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div><h3>Anonymous text chat</h3><p>Instant one-to-one text chat with a random stranger. No names, no profiles, no chat history saved.</p></div>
-        <div class="card reveal"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#7c5cff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg></div><h3>Voice calls</h3><p>Switch from text to a crystal-clear voice call whenever both of you are up for it.</p></div>
+        <div class="card reveal"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#7c5cff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg></div><h3>Voice calls</h3><p>Switch from text to a clear voice call whenever both of you are up for it.</p></div>
         <div class="card reveal"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#ff5ca8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div><h3>Video calls</h3><p>Face-to-face video with strangers, powered by fast peer-to-peer WebRTC connections.</p></div>
         <div class="card reveal"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#00d4ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a7 7 0 0 1 14 0v1" opacity=".4"/><line x1="3" y1="3" x2="21" y2="21"/></svg></div><h3>No signup, ever</h3><p>No email, no phone number, no password. Open the app, confirm you're 18+, and start meeting people.</p></div>
-        <div class="card reveal"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#7c5cff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div><h3>Instant matching</h3><p>Smart matchmaking pairs you with someone in seconds. Not feeling it? Tap Next and move on.</p></div>
-        <div class="card reveal"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#ff5ca8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h3>Safety built in</h3><p>Report and block in one tap. You're always in control of who you talk to — and for how long.</p></div>
+        <div class="card reveal"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#7c5cff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div><h3>Instant matching</h3><p>Novis finds someone for you in a few seconds. Not feeling the conversation? Tap Next and move on.</p></div>
+        <div class="card reveal"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#ff5ca8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h3>Safety built in</h3><p>Report and block in one tap. You decide who you talk to, and for how long.</p></div>
       </div>
     </div>
   </section>
@@ -190,7 +205,7 @@
     <div class="wrap">
       <p class="kicker">How it works</p>
       <h2>Talking in under 10 seconds</h2>
-      <p class="sub">No forms. No feeds. No followers. Just real conversations with real people.</p>
+      <p class="sub">No forms, no feeds, no followers — just conversations with real people.</p>
       <div class="steps">
         <div class="step reveal"><div class="num">1</div><h3>Open Novis</h3><p>Download the app (or open the web app) and confirm you're 18 or older. That's the only gate.</p></div>
         <div class="step reveal"><div class="num">2</div><h3>Pick text, voice or video</h3><p>Choose how you want to connect and Novis instantly finds a stranger who's online right now.</p></div>
@@ -203,13 +218,13 @@
   <section id="safety" class="safety">
     <div class="wrap">
       <p class="kicker">Safety first</p>
-      <h2>Anonymous doesn't mean unprotected</h2>
+      <h2>Built to keep you safe</h2>
       <p class="sub">Novis is strictly for adults, and you stay in charge of every conversation.</p>
       <div class="safe-grid">
         <div class="safe-item reveal"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#ff8080" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="4.9" y1="4.9" x2="19.1" y2="19.1"/></svg></div><div><h3>18+ only</h3><p>Novis is an adults-only app. An age confirmation is required before your first match.</p></div></div>
         <div class="safe-item reveal"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#00d4ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V4"/><path d="M4 4h13l-2.5 4L17 12H4"/></svg></div><div><h3>Report &amp; block</h3><p>Bad behaviour? Report or block in one tap — you'll never be matched with that person again.</p></div></div>
-        <div class="safe-item reveal"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#7c5cff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div><div><h3>Stay anonymous</h3><p>Never share personal details — your real name, address, phone number, school or social handles.</p></div></div>
-        <div class="safe-item reveal"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#ff5ca8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></div><div><h3>Leave anytime</h3><p>Every chat is one tap from over. When a conversation ends, it's gone — nothing is kept.</p></div></div>
+        <div class="safe-item reveal"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#7c5cff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div><div><h3>Stay anonymous</h3><p>Keep personal details to yourself: your real name, address, phone number, school and social handles.</p></div></div>
+        <div class="safe-item reveal"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#ff5ca8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></div><div><h3>Leave anytime</h3><p>You can end any chat with one tap. Once it ends, it's gone — nothing is kept.</p></div></div>
       </div>
     </div>
   </section>
@@ -219,7 +234,7 @@
     <div class="wrap">
       <p class="kicker">Download</p>
       <h2>Get Novis on your device</h2>
-      <p class="sub">Free on every platform. Pick yours and start meeting people in seconds.</p>
+      <p class="sub">Novis is free on Android, Windows and the web. Pick yours and start meeting people.</p>
       <div class="dl-cards">
         <div class="dl-card reveal">
           <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#00d4ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2.5"/><line x1="12" y1="18.5" x2="12.01" y2="18.5"/></svg></div>
